@@ -1,12 +1,14 @@
-const mongoose = require('mongoose')
+const mongoose = require('mongoose');
+const Player = require('./player');
+const _ = require('lodash')
 
-const Game = mongoose.model('Game', {
+const gameSchema = new mongoose.Schema({
     playerOne: {
-        type: Schema.Types.ObjectId,
+        type: mongoose.Schema.Types.ObjectId,
         required: true
     },
     playerTwo: {
-        type: Schema.Types.ObjectId,
+        type: mongoose.Schema.Types.ObjectId,
         required: true
     },
     stage: {
@@ -14,7 +16,7 @@ const Game = mongoose.model('Game', {
         required:true
     },
     winner: {
-        type: Schema.Types.ObjectId,
+        type: mongoose.Schema.Types.ObjectId,
         required: true
     },
     playerOneCharacter: {
@@ -24,7 +26,43 @@ const Game = mongoose.model('Game', {
     playerTwoCharacter: {
         type: String,
         required: true
+    },
+    timeStamp: {
+        type: String,
+        required: true
     }
-})
+});
 
-module.exports = Game
+gameSchema.statics.findByTimestamp = async (timeStamp) => {
+    const game = await Game.findOne({timeStamp});
+    return game;
+};
+
+gameSchema.statics.findGamesWithPlayer = async (id) => {
+    const games = await Game.find({
+        $or: [
+            {'playerOne': id},
+            {'playerTwo': id}
+        ]
+    });
+
+    if(!games) {
+        throw new Error('Could not find games for player with id ' + id);
+    }
+
+    return games;
+};
+
+gameSchema.statics.findGamesOnStage = async(playerId, stage) => {
+    const gamesByPlayer = await Game.findGamesWithPlayer(playerId);
+
+    const gamesOnStage = _.remove(gamesByPlayer, (game) => {
+        return game.stage == stage;
+    });
+
+    return gamesOnStage;
+};
+
+const Game = mongoose.model('Game', gameSchema);
+
+module.exports = Game;

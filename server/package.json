@@ -4,12 +4,25 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node src/app.js",
+    "dev": "env-cmd -f ./config/dev.env nodemon src/app.js",
+    "test": "env-cmd -f ./config/test.env jest --watch --runInBand"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "bcryptjs": "^2.4.3",
     "express": "^4.17.1",
-    "mongoose": "^5.7.1"
+    "https": "^1.0.0",
+    "jsonwebtoken": "^8.5.1",
+    "lodash": "^4.17.15",
+    "mongoose": "^5.7.1",
+    "slp-parser-js": "^3.0.0",
+    "validator": "^11.1.0"
+  },
+  "devDependencies": {
+    "env-cmd": "^10.0.1",
+    "jest": "^24.9.0",
+    "nodemon": "^1.19.2"
   }
 }
