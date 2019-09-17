@@ -1,6 +1,20 @@
 const express = require('express');
 const Game = require('../models/game');
 let router = new express.Router();
+let multer = require('multer');
+
+var storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+     cb(null, 'src/slippi/uploads');
+    },
+    filename: function (req, file, cb) {
+     cb(null, file.fieldname + '-' + Date.now());
+    }
+});
+
+var upload = multer({ storage });
+
+//router.post('/games/upload', upload.a)
 
 router.post('/games', async(req, res) => {
     const game = new Game(req.body);

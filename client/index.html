@@ -6,7 +6,10 @@
 
     <body>
         <div class="main">
-            Hello world!
+            <form action="/games/upload"  enctype="multipart/form-data" method="POST">
+                Select files: <input type="file" name="myFiles" multiple>
+                <input type="submit" value="Upload your files"/>
+            </form>
         </div>
         
     </body>

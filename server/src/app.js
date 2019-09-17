@@ -1,6 +1,7 @@
 let express = require('express');
 let https = require('https');
 let path = require('path');
+let fs = require('fs');
 
 let port = process.env.PORT;
 
@@ -20,9 +21,12 @@ app.get('/', (req, res) => {
     res.sendFile('index.html', {root: publicDir});
 });
 
-//let server = https.createServer(app);
-//server.listen(process.env.PORT);
+const options = {
+    key: fs.readFileSync(path.join(__dirname, '../certs/server.key')),
+    cert: fs.readFileSync(path.join(__dirname, '../certs/server.cert'))
+};
+  
 
-app.listen(port, () => {
-    console.log('Server is up on port ' + port);
-})
+let server = https.createServer(options, app);
+server.listen(process.env.PORT);
+console.log("I'm running on https://localhost:3000");
