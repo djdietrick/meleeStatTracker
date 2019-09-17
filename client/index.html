@@ -2,15 +2,53 @@
 <html>
     <head>
         <link rel="stylesheet" href="css/style.css">
+        <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+        <script
+            src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+            integrity="sha256-pasqAKBDmFT4eHoN2ndd6lN370kFiGUFyTiUHWhU7k8="
+            crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.0/axios.js"></script>
     </head>
 
     <body>
         <div class="main">
-            <form action="/games/upload"  enctype="multipart/form-data" method="POST">
+            <div id="vueForm" class="container">
+                <!--<form @submit="onSubmit" enctype="multipart/form-data">-->
+                    Select files: <input type="file" name="myFiles" @change="onChange" multiple>
+
+                    <div class="player-info">
+                        Player 1 Username: <input type="text" id="playerOne" name="playerOne" v-model="playerOne.userName">
+                        Player 1 Port: <input type="text" id="playerOne" name="playerOne" v-model="playerOne.port">
+                        Player 1 Tag: <input type="text" id="playerOne" name="playerOne" v-model="playerOne.tag">
+                    </div>
+                    <hr>
+                    <div class="player-info">
+                        Player 2 Username: <input type="text" id="playerTwo" name="playerTwo" v-model="playerTwo.userName">
+                        Player 2 Port: <input type="text" id="playerTwo" name="playerTwo" v-model="playerTwo.port">
+                        Player 2 Tag: <input type="text" id="playerTwo" name="playerTwo" v-model="playerTwo.tag">
+                    </div>
+                    <button @click="submit">Upload Games</button>
+                <!--</form>-->
+            </div>
+
+
+            <!-- <form id="vueForm" action="/games/upload" enctype="multipart/form-data" method="POST">
                 Select files: <input type="file" name="myFiles" multiple>
-                <input type="submit" value="Upload your files"/>
-            </form>
+                <div class="player-info">
+                    Player 1 Username: <input type="text" id="playerOne" name="playerOne" v-model="playerOne.userName">
+                    Player 1 Port: <input type="text" id="playerOne" name="playerOne" v-model="playerOne.port">
+                    Player 1 Tag: <input type="text" id="playerOne" name="playerOne" v-model="playerOne.tag">
+                </div>
+                <hr>
+                <div class="player-info">
+                    Player 2 Username: <input type="text" id="playerTwo" name="playerTwo" v-model="playerTwo.userName">
+                    Player 2 Port: <input type="text" id="playerTwo" name="playerTwo" v-model="playerTwo.port">
+                    Player 2 Tag: <input type="text" id="playerTwo" name="playerTwo" v-model="playerTwo.tag">
+                </div>
+                <button @click="submit">Upload Games</button>
+            </form> -->
         </div>
         
+        <script src="js/script.js"></script>
     </body>
 </html>

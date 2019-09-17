@@ -27,14 +27,15 @@ const gameSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    timeStamp: {
+    filename: {
         type: String,
-        required: true
+        required: true,
+        unique: true
     }
 });
 
-gameSchema.statics.findByTimestamp = async (timeStamp) => {
-    const game = await Game.findOne({timeStamp});
+gameSchema.statics.findByFileName = async (filename) => {
+    const game = await Game.findOne({filename});
     return game;
 };
 
