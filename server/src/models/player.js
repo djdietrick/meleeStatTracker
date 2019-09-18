@@ -4,9 +4,21 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 
 const playerSchema = new mongoose.Schema({
-    name: {
+    userName: {
         type: String,
         required: true
+    },
+    email: {
+        type: String,
+        unique: true,
+        required: true,
+        trim: true,
+        lowercase: true,
+        validate(value) {
+            if (!validator.isEmail(value)) {
+                throw new Error('Email is invalid')
+            }
+        }
     },
     password: {
         type: String,
@@ -35,10 +47,20 @@ playerSchema.methods.generateAuthToken = async function () {
     await player.save();
 
     return token;
-}
+};
+
+playerSchema.methods.toJSON = function () {
+    const user = this
+    const userObject = user.toObject()
+
+    delete userObject.password;
+    delete userObject.tokens;
+
+    return userObject;
+};
 
 playerSchema.statics.findPlayerByName = async (name) => {
-    const player = Player.findOne({name});
+    const player = await Player.findOne({userName: name});
 
     return player;
 };

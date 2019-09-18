@@ -43,10 +43,14 @@ router.post('/games/upload', upload.any(), async(req, res) => {
         const players = JSON.parse(req.body.players);
 
         // Get playerIds
-        players.forEach((player) => {
-            const playerData = Player.findPlayerByName(player.userName);
-            player.playerId = playerData._id;
-        });
+        // players.forEach((player) => {
+        //     const playerData = Player.findPlayerByName(player.userName);
+        //     player.playerId = playerData._id;
+        // });
+        for(var i = 0; i < players.length; i++) {
+            const playerData = await Player.findPlayerByName(players[i].userName);
+            players[i].playerId = playerData._id;
+        }
 
 
         console.log(req.files);

@@ -7,7 +7,7 @@ router.post('/player/new', async(req, res) => {
     try {
         const player = new Player(req.body);
         await player.save();
-        res.send(player);
+        res.send(player.toJSON());
     } catch(e) {
         res.status(400).send(e.message);
     }
