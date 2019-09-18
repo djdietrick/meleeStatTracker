@@ -12,17 +12,17 @@ const playerSchema = new mongoose.Schema({
         type: String,
         required: true,
         minlength: 7,
-        trim: true,
-        validate(value) {
-            if (value.toLowerCase().includes('password')) {
-                throw new Error('Password cannot contain "password"');
-            }
-        }
+        trim: true
     },
     tokens: [{
         token: {
             type: String,
             required: true
+        }
+    }],
+    friends: [{
+        friendId: {
+            type: mongoose.Schema.Types.ObjectId
         }
     }]
 });

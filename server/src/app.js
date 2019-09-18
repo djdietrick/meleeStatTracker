@@ -3,10 +3,12 @@ let https = require('https');
 let path = require('path');
 let fs = require('fs');
 let bodyParser = require('body-parser');
+let multer = require('multer');
 
 let port = process.env.PORT;
 
 const gameRouter = require('./routes/game');
+const playerRouter = require('./routes/player');
 
 // Connect to DB
 require('../db/mongoose');
@@ -18,8 +20,12 @@ let app = express();
 app.use(express.static(publicDir));
 
 //app.use(express.json());
+//app.use(express.bodyParser());
 app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({extended: true}));
+
 app.use(gameRouter);
+app.use(playerRouter);
 
 app.get('/', (req, res) => {
     res.sendFile('index.html', {root: publicDir});
@@ -36,5 +42,5 @@ const options = {
 // console.log("I'm running on https://localhost:3000");
 
 app.listen(port, () => {
-    console.log('Server is up on port ' + port);
+    console.log('Server is up on http://localhost:' + port);
 });

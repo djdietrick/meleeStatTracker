@@ -23,26 +23,38 @@ new Vue({
     },
     methods: {
         submit() {
-            console.log(this.files);
             const formData = new FormData();
 
             for(var i = 0; i < this.files.length; i++) {
                 let file = this.files[i];
                 formData.append('files[' + i + ']', file);
             }
-            formData.set('playerOneName', this.playerOne.userName);
-            formData.set('playerTwoName', this.playerTwo.userName);
-            formData.set('playerOnePort', this.playerOne.port);
-            formData.set('playerTwoPort', this.playerTwo.port);
-            formData.set('playerOneTag', this.playerOne.tag);
-            formData.set('playerTwoTag', this.playerTwo.tag);
+            let players = [];
+            players.push({
+                userName: this.playerOne.userName,
+                port: this.playerOne.port,
+                tag: this.playerOne.tag
+            });
+            players.push({
+                userName: this.playerTwo.userName,
+                port: this.playerTwo.port,
+                tag: this.playerTwo.tag
+            })
+            // formData.set('playerOneName', this.playerOne.userName);
+            // formData.set('playerTwoName', this.playerTwo.userName);
+            // formData.set('playerOnePort', this.playerOne.port);
+            // formData.set('playerTwoPort', this.playerTwo.port);
+            // formData.set('playerOneTag', this.playerOne.tag);
+            // formData.set('playerTwoTag', this.playerTwo.tag);
+            formData.set('players', JSON.stringify(players));
 
             axios.post('http://localhost:3000/games/upload', formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data'
                 }
+            }).then((res) => {
+                console.log(res);
             });
-            console.log(formData);
         },
         onChange(e) {
             console.log(e);

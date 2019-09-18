@@ -3,28 +3,27 @@ const Player = require('./player');
 const _ = require('lodash')
 
 const gameSchema = new mongoose.Schema({
-    playerOne: {
-        type: mongoose.Schema.Types.ObjectId,
-        required: true
-    },
-    playerTwo: {
-        type: mongoose.Schema.Types.ObjectId,
-        required: true
-    },
-    stage: {
-        type: String,
+    players: [{
+        playerId: {
+            type:mongoose.Schema.Types.ObjectId,
+            required: true
+        },
+        character: {
+            id: {
+                type: Number,
+                required: true
+            },
+            colorId: {
+                type: Number
+            }
+        }
+    }],
+    stageId: {
+        type: Number,
         required:true
     },
-    winner: {
+    winnerPlayerId: {
         type: mongoose.Schema.Types.ObjectId,
-        required: true
-    },
-    playerOneCharacter: {
-        type: String,
-        required: true
-    },
-    playerTwoCharacter: {
-        type: String,
         required: true
     },
     filename: {
@@ -47,9 +46,10 @@ gameSchema.statics.findGamesWithPlayer = async (id) => {
         ]
     });
 
-    if(!games) {
-        throw new Error('Could not find games for player with id ' + id);
-    }
+    // Probably not needed
+    // if(!games) {
+    //     throw new Error('Could not find games for player with id ' + id);
+    // }
 
     return games;
 };

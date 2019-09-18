@@ -1,11 +1,13 @@
 const express = require('express');
 const Game = require('../models/game');
+const Player = require('../models/player');
 let router = new express.Router();
 let multer = require('multer');
 let fs = require('fs');
 let path = require('path');
 let {convertFile} = require('../slippi/convert');
 const auth = require('../middleware/auth');
+let _ = require('lodash');
 
 const pathToUploads = path.join(__dirname, '../slippi/uploads/');
 
@@ -32,29 +34,60 @@ router.post('/games', async(req, res) => {
         const game = new Game(req.body);
         await game.save();
     } catch(e) {
-        res.status(400).send(e);
+        res.status(400).send(e.message);
     }
 });
 
 router.post('/games/upload', upload.any(), async(req, res) => {
     try {
-        // for(let file in req.files) {
-        //     // if(!Game.findByFileName(file.originalname)) {
-        //         const game = convertFile(file.originalname);
-        //     // }
-        //     fs.unlinkSync(path.join(pathToUploads, file.originalname));
-        // }
-        console.log(req.body);
+        const players = JSON.parse(req.body.players);
+
+        // Get playerIds
+        players.forEach((player) => {
+            const playerData = Player.findPlayerByName(player.userName);
+            player.playerId = playerData._id;
+        });
+
+
         console.log(req.files);
         let games = [];
         req.files.forEach((file) => {
             const game = convertFile(file.originalname);
-            games.push(game);
             fs.unlinkSync(path.join(pathToUploads, file.originalname));
+
+            game.players.forEach((player) => {
+                const getPlayerIdFromMe = players.find((tempPlayer) => {
+                    return tempPlayer.port === player.port ||
+                        tempPlayer.tag === player.tag;
+                });
+                player.playerId = getPlayerIdFromMe.playerId;
+            });
+
+            game.winner.playerId = players.find((tempPlayer) => {
+                return tempPlayer.port === game.winner.port ||
+                        tempPlayer.tag === game.winner.tag;
+            }).playerId;
+
+            games.push(game);
         });
         //console.log(games);
         
         return res.status(200).send(games);
+    } catch(e) {
+        return res.status(400).send(e.message);
+    }
+});
+
+router.post('/games/check', async(req, res) => {
+    try {
+        const games = req.games;
+        let alreadyExist = [];
+        games.forEach((game) => {
+            if(Game.findByFileName(game)) {
+                alreadyExist.push(game);
+            }
+        })
+        return res.status(200).send(alreadyExist);
     } catch(e) {
         return res.status(400).send(e.message);
     }

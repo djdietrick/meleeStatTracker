@@ -19,6 +19,7 @@ function convertFile(filename) {
         id: settings.stageId,
         name: stages.getStageName(settings.stageId)
     };
+    retGame.stageId = settings.stageId;
 
     retGame.players = [];
     settings.players.forEach((player) => {
