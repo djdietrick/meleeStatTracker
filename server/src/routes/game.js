@@ -43,22 +43,19 @@ router.post('/games/upload', upload.any(), async(req, res) => {
         const players = JSON.parse(req.body.players);
 
         // Get playerIds
-        // players.forEach((player) => {
-        //     const playerData = Player.findPlayerByName(player.userName);
-        //     player.playerId = playerData._id;
-        // });
         for(var i = 0; i < players.length; i++) {
-            const playerData = await Player.findPlayerByName(players[i].userName);
+            const playerData = await Player.findPlayerByName(players[i].username);
             players[i].playerId = playerData._id;
         }
 
 
-        console.log(req.files);
+        //console.log(req.files);
         let games = [];
         req.files.forEach((file) => {
             const game = convertFile(file.originalname);
             fs.unlinkSync(path.join(pathToUploads, file.originalname));
 
+            // Figure out which player is which based on port or tag given
             game.players.forEach((player) => {
                 const getPlayerIdFromMe = players.find((tempPlayer) => {
                     return tempPlayer.port === player.port ||
@@ -67,14 +64,19 @@ router.post('/games/upload', upload.any(), async(req, res) => {
                 player.playerId = getPlayerIdFromMe.playerId;
             });
 
+            // Set winner playerId
             game.winner.playerId = players.find((tempPlayer) => {
                 return tempPlayer.port === game.winner.port ||
                         tempPlayer.tag === game.winner.tag;
             }).playerId;
+            game.winnerPlayerId = game.winner.playerId;
 
             games.push(game);
         });
-        //console.log(games);
+        
+        for(var i = 0; i < games.length; i++) {
+            await new Game(games[i]).save();
+        }
         
         return res.status(200).send(games);
     } catch(e) {
@@ -87,10 +89,12 @@ router.post('/games/check', async(req, res) => {
         const games = req.games;
         let alreadyExist = [];
         games.forEach((game) => {
-            if(Game.findByFileName(game)) {
-                alreadyExist.push(game);
-            }
-        })
+            Game.findByFileName(game).then((exists) => {
+                if(exists) {
+                    alreadyExist.push(game);
+                }
+            });
+        });
         return res.status(200).send(alreadyExist);
     } catch(e) {
         return res.status(400).send(e.message);

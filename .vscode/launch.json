@@ -9,5 +9,17 @@
             "restart": true,
             "protocol": "inspector"
         },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "Jest",
+            "program": "${workspaceRoot}\\server\\node_modules\\jest\\bin\\jest.js",
+            "envFile": "${workspaceFolder}/server/config/test.env",
+            "internalConsoleOptions": "openOnSessionStart",
+            "args": [
+                "-i"
+            ],
+            "cwd": "${workspaceFolder}/server"
+        }
     ]
 }

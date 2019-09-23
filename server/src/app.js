@@ -19,8 +19,6 @@ let app = express();
 
 app.use(express.static(publicDir));
 
-//app.use(express.json());
-//app.use(express.bodyParser());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
 
@@ -44,3 +42,5 @@ const options = {
 app.listen(port, () => {
     console.log('Server is up on http://localhost:' + port);
 });
+
+module.exports = app;

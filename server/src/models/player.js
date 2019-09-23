@@ -4,7 +4,7 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 
 const playerSchema = new mongoose.Schema({
-    userName: {
+    username: {
         type: String,
         required: true
     },
@@ -60,7 +60,7 @@ playerSchema.methods.toJSON = function () {
 };
 
 playerSchema.statics.findPlayerByName = async (name) => {
-    const player = await Player.findOne({userName: name});
+    const player = await Player.findOne({username: name});
 
     return player;
 };

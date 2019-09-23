@@ -40,12 +40,7 @@ new Vue({
                 port: this.playerTwo.port,
                 tag: this.playerTwo.tag
             })
-            // formData.set('playerOneName', this.playerOne.userName);
-            // formData.set('playerTwoName', this.playerTwo.userName);
-            // formData.set('playerOnePort', this.playerOne.port);
-            // formData.set('playerTwoPort', this.playerTwo.port);
-            // formData.set('playerOneTag', this.playerOne.tag);
-            // formData.set('playerTwoTag', this.playerTwo.tag);
+
             formData.set('players', JSON.stringify(players));
 
             axios.post('http://localhost:3000/games/upload', formData, {

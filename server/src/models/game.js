@@ -5,8 +5,7 @@ const _ = require('lodash')
 const gameSchema = new mongoose.Schema({
     players: [{
         playerId: {
-            type:mongoose.Schema.Types.ObjectId,
-            required: true
+            type:mongoose.Schema.Types.ObjectId
         },
         character: {
             id: {
@@ -31,6 +30,11 @@ const gameSchema = new mongoose.Schema({
         required: true,
         unique: true
     }
+});
+
+gameSchema.index({
+    "players.playerId": 1,
+    filename: 1
 });
 
 gameSchema.statics.findByFileName = async (filename) => {
