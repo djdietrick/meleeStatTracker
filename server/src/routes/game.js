@@ -75,7 +75,11 @@ router.post('/games/upload', upload.any(), async(req, res) => {
         });
         
         for(var i = 0; i < games.length; i++) {
-            await new Game(games[i]).save();
+            try {
+                await new Game(games[i]).save();
+            } catch(e) {
+                return res.status(500).send(e.message);
+            }
         }
         
         return res.status(200).send(games);

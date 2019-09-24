@@ -27,14 +27,22 @@ const gameSchema = new mongoose.Schema({
     },
     filename: {
         type: String,
-        required: true,
-        unique: true
+        required: true
     }
 });
 
-gameSchema.index({
-    "players.playerId": 1,
-    filename: 1
+// gameSchema.index({
+//     filename: 1,
+//     "players.playerId": 1   
+// }, {
+//     unique: true
+// });
+
+gameSchema.indexes({
+    filename: 1,
+    "players.playerId": 1   
+}, {
+    unique: true
 });
 
 gameSchema.statics.findByFileName = async (filename) => {
