@@ -118,7 +118,7 @@ test('Should not be able to upload duplicate games', async () => {
     const response3 = await request(app).post('/games/upload')
     .field('players', JSON.stringify([
             {
-                username: 'Dave',
+                username: 'Mango',
                 port: 1
             },
             {
@@ -128,7 +128,7 @@ test('Should not be able to upload duplicate games', async () => {
         ])).attach('files', path.join(__dirname, '/files/BTSsmash-Game_20190825T163930.slp'))
     //.expect(200);
 
-    console.log(response3.body);
+    console.log(JSON.stringify(response3.error));
 
     const games3 = await Game.find();
     expect(games3.length).toBe(2);

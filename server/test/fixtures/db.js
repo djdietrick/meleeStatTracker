@@ -38,11 +38,23 @@ const donny = {
     }]
 }
 
+const mangoId = new mongoose.Types.ObjectId();
+const mango = {
+    _id: mangoId,
+    username: 'Mango',
+    email: 'mango@gmail.com',
+    password,
+    tokens: [{
+        token: jwt.sign({_id: mangoId }, process.env.JWT_SECRET)
+    }]
+}
+
 const setupPlayers = async () => {
     await Player.deleteMany();
     await new Player(dave).save();
     await new Player(tom).save();
     await new Player(donny).save();
+    await new Player(mango).save();
 }
 
 const deleteGames = async () => {
@@ -53,9 +65,11 @@ module.exports = {
     dave,
     tom,
     donny,
+    mango,
     daveId,
     tomId,
     donnyId,
+    mangoId,
     setupPlayers,
     deleteGames
 }

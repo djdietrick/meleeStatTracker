@@ -78,12 +78,14 @@ router.post('/games/upload', upload.any(), async(req, res) => {
             try {
                 await new Game(games[i]).save();
             } catch(e) {
+                console.log("Error when saving game: ", e.message);
                 return res.status(500).send(e.message);
             }
         }
         
         return res.status(200).send(games);
     } catch(e) {
+        console.log("Error when parsing files: ", e.message);
         return res.status(400).send(e.message);
     }
 });

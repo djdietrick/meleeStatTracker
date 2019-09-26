@@ -5,7 +5,8 @@ const _ = require('lodash')
 const gameSchema = new mongoose.Schema({
     players: [{
         playerId: {
-            type:mongoose.Schema.Types.ObjectId
+            type:mongoose.Schema.Types.ObjectId,
+            ref: Player
         },
         character: {
             id: {
@@ -23,7 +24,8 @@ const gameSchema = new mongoose.Schema({
     },
     winnerPlayerId: {
         type: mongoose.Schema.Types.ObjectId,
-        required: true
+        required: true,
+        ref: Player
     },
     filename: {
         type: String,
@@ -31,14 +33,7 @@ const gameSchema = new mongoose.Schema({
     }
 });
 
-// gameSchema.index({
-//     filename: 1,
-//     "players.playerId": 1   
-// }, {
-//     unique: true
-// });
-
-gameSchema.indexes({
+gameSchema.index({
     filename: 1,
     "players.playerId": 1   
 }, {
