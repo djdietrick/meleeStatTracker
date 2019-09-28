@@ -17,7 +17,6 @@ var storage = multer.diskStorage({
     },
     filename: function (req, file, cb) {
      cb(null, file.originalname);
-     //console.log(file.originalname);
     },
     fileFilter: function(req, file, cb) {
         if(!file.originalname.match(/\.(slp)&/)) {
@@ -92,7 +91,7 @@ router.post('/games/upload', upload.any(), async(req, res) => {
 
 router.post('/games/check', async(req, res) => {
     try {
-        const games = req.games;
+        const games = req.body.games;
         let alreadyExist = [];
         games.forEach((game) => {
             Game.findByFileName(game).then((exists) => {
@@ -107,10 +106,8 @@ router.post('/games/check', async(req, res) => {
     }
 });
 
-router.get('/games/:player_id', async(req, res) => {
-    const id = req.params.player_id;
-
-    const games = await Game.findGamesWithPlayer(id);
+router.post('/games/:player_id', auth, async(req, res) => {
+    const games = await Game.findGamesWithPlayer(req.body.player._id);
 
     return games;
 });

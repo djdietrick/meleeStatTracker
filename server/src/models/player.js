@@ -65,6 +65,22 @@ playerSchema.statics.findPlayerByName = async (name) => {
     return player;
 };
 
+playerSchema.statics.findByCredentials = async(username, password) => {
+    const player = await Player.findOne({username});
+
+    if(!player) {
+        throw new Error('Could not find player with username', username);
+    }
+
+    const isMatch = await bcrypt.compare(password, player.password);
+
+    if(!isMatch) {
+        throw new Error('Invalid password!');
+    }
+
+    return player;
+};
+
 // Hash the plain text password before saving
 playerSchema.pre('save', async function (next) {
     const player = this;

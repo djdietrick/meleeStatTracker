@@ -4,10 +4,12 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "node src/app.js",
+    "start": "npm-run-all --parallel dev watch:sass",
     "dev": "env-cmd -f ./config/dev.env nodemon src/app.js",
     "test": "env-cmd -f ./config/test.env jest --runInBand",
-    "debug": "env-cmd -f ./config/dev.env nodemon --inspect src/app.js"
+    "debug": "env-cmd -f ./config/dev.env nodemon --inspect src/app.js",
+    "compile:sass": "node-sass ../client/sass/main.scss ../client/css/style.css",
+    "watch:sass": "node-sass ../client/sass/main.scss ../client/css/style.css -w"
   },
   "jest": {
     "testEnvironment": "node"
@@ -29,7 +31,9 @@
   "devDependencies": {
     "env-cmd": "^10.0.1",
     "jest": "^24.9.0",
+    "node-sass": "^4.12.0",
     "nodemon": "^1.19.2",
+    "npm-run-all": "^4.1.5",
     "supertest": "^4.0.2"
   }
 }

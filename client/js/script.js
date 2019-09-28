@@ -18,7 +18,8 @@ new Vue({
                 port: 0,
                 tag: ''
             },
-            files: ''
+            files: '',
+            user: {}
         }
     },
     methods: {
