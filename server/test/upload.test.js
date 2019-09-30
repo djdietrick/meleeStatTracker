@@ -110,7 +110,7 @@ test('Should not be able to upload duplicate games', async () => {
             }
         ])).attach('files', path.join(__dirname, '/files/BTSsmash-Game_20190825T163930.slp'))
     .expect(500);
-
+    
     const games2 = await Game.find();
     expect(games2.length).toBe(1);
 
@@ -126,7 +126,7 @@ test('Should not be able to upload duplicate games', async () => {
                 port: 4
             }
         ])).attach('files', path.join(__dirname, '/files/BTSsmash-Game_20190825T163930.slp'))
-    //.expect(200);
+    .expect(200);
 
     console.log(JSON.stringify(response3.error));
 

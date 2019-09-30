@@ -38,6 +38,7 @@ router.post('/games', async(req, res) => {
 });
 
 router.post('/games/upload', upload.any(), async(req, res) => {
+    console.log("Received POST request to games/upload, body:" , JSON.stringify(req.body));
     try {
         const players = JSON.parse(req.body.players);
 
@@ -46,7 +47,6 @@ router.post('/games/upload', upload.any(), async(req, res) => {
             const playerData = await Player.findPlayerByName(players[i].username);
             players[i].playerId = playerData._id;
         }
-
 
         //console.log(req.files);
         let games = [];
@@ -107,6 +107,7 @@ router.post('/games/check', async(req, res) => {
 });
 
 router.post('/games/:player_id', auth, async(req, res) => {
+    console.log("Received POST request to player/games/:playerId, body:" , JSON.stringify(req.body));
     const games = await Game.findGamesWithPlayer(req.body.player._id);
 
     return games;
