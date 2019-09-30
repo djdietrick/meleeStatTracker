@@ -4,12 +4,12 @@
       <router-link to="/">Home</router-link> |
 
       <span v-if="isLoggedIn">
-        <router-link to="/upload">Upload</router-link>
-        <router-link to="/logout">Logout</router-link>
+        <router-link to="/upload">Upload</router-link> | 
+        <button @click="logout">Logout</button>
       </span>
       <span v-else>
         <router-link to="/login">Login</router-link> | 
-        <router-link to="/register" @click="logout">Register</router-link>
+        <router-link to="/register">Register</router-link>
       </span>
     </div>
     <router-view/>
@@ -17,7 +17,7 @@
 </template>
 
 <script>
-import { mapGetters, mapActions } from 'vuex';
+import { mapGetters } from 'vuex';
 export default {
   computed: {
     ...mapGetters([
@@ -25,13 +25,15 @@ export default {
     ])
   },
   methods: {
-    ...mapActions([
-      'logout'
-    ])
+    logout: function() {
+      console.log("Calling logout...");
+      this.$store.dispatch('logout')
+      .then(() => this.$router.push('/'))
+      .catch(err => console.log(err));
+    }
   }
 }
 </script>
-
 
 <style lang="scss">
 #app {

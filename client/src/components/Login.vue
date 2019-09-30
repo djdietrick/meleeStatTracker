@@ -27,7 +27,7 @@ export default {
             let username = this.username 
             let password = this.password
             this.$store.dispatch('login', { username, password })
-            //.then(() => this.$router.push('/'))
+            .then(() => this.$router.push('/'))
             .catch(err => console.log(err))
         }
     }

@@ -35,12 +35,12 @@ router.post('/player/login', async(req, res) => {
 router.post('/player/logout', auth, async(req, res) => {
     console.log("Received POST request to player/logout, body:" , JSON.stringify(req.body));
     try {
-        req.player.tokens = req.player.tokens.filter((token) => {
-            return token.token !== req.token;
-        })
+        req.player.tokens = req.player.tokens.filter(token => token.token !== req.token);
         await req.player.save();
+        console.log("Successfully logged off user from the server");
     } catch(e) {
-        res.status(500).send(e.message);
+        console.log("Error when logging out:", e.message);
+        return res.status(500).send(e.message);
     }
 })
 
