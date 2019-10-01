@@ -87,15 +87,20 @@ export default new Vuex.Store({
     },
     logout({commit}){
       return new Promise((resolve, reject) => {
+        console.log('In logout action');
         axios.defaults.headers.common['Authorization'] = this.state.token;
+        console.log("Set token");
         axios({
           url: 'http://localhost:3000/player/logout',
           data: this.state.player,
           method: 'POST'
         }).then(resp => {      
+          console.log('Sent request');
           commit('logout');
+          console.log("committed logout")
           //localStorage.removeItem('vuex');
           delete axios.defaults.headers.common['Authorization'];
+          console.log('deleted auth header');
           console.log("Successfully logged out on client side");
           resolve(resp);
         }).catch(err => {

@@ -38,6 +38,7 @@ router.post('/player/logout', auth, async(req, res) => {
         req.player.tokens = req.player.tokens.filter(token => token.token !== req.token);
         await req.player.save();
         console.log("Successfully logged off user from the server");
+        return res.send();
     } catch(e) {
         console.log("Error when logging out:", e.message);
         return res.status(500).send(e.message);
