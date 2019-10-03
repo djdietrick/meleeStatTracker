@@ -1,5 +1,9 @@
 <template>
     <div>
+        <div v-if="error" class="errorMessage">
+            <h2>Error</h2>
+            <p>{{errorMessage}}</p>
+        </div>
         <form class="login" @submit.prevent="login">
             <h1>Sign in</h1>
             <label>Username</label>
@@ -19,7 +23,9 @@ export default {
     data () {
         return {
             username: '',
-            password: ''
+            password: '',
+            error: false,
+            errorMessage: ''
         }
     },
     methods: {
@@ -28,8 +34,18 @@ export default {
             let password = this.password
             this.$store.dispatch('login', { username, password })
             .then(() => this.$router.push('/'))
-            .catch(err => console.log(err))
+            .catch(err => {
+                this.error = true;
+                this.errorMessage = err;
+            })
         }
     }
 }
 </script>
+
+<style lang="scss" scoped>
+.errorMessage {
+    display:inline-block;
+    background-color: red;
+}
+</style>

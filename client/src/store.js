@@ -50,7 +50,6 @@ export default new Vuex.Store({
         }).then(resp => {
           const token = resp.data.token;
           const player  = resp.data.player;
-          //localStorage.setItem('token', token);
           axios.defaults.headers.common['Authorization'] = token;
           commit('auth_success', {token, player});
           console.log("Successfully logged in player:", player);
@@ -72,7 +71,6 @@ export default new Vuex.Store({
         }).then(resp => {
           const token = resp.data.token;
           const player  = resp.data.player;
-          //localStorage.setItem('token', token);
           axios.defaults.headers.common['Authorization'] = token;
           commit('auth_success', token, player);
           console.log("Response:", resp);
@@ -87,21 +85,15 @@ export default new Vuex.Store({
     },
     logout({commit}){
       return new Promise((resolve, reject) => {
-        console.log('In logout action');
         axios.defaults.headers.common['Authorization'] = this.state.token;
-        console.log("Set token");
         axios({
           url: 'http://localhost:3000/player/logout',
           data: this.state.player,
           method: 'POST'
         }).then(resp => {      
-          console.log('Sent request');
           commit('logout');
-          console.log("committed logout")
-          //localStorage.removeItem('vuex');
           delete axios.defaults.headers.common['Authorization'];
-          console.log('deleted auth header');
-          console.log("Successfully logged out on client side");
+          console.log("Successfully logged out");
           resolve(resp);
         }).catch(err => {
           commit('auth_error')
@@ -111,7 +103,9 @@ export default new Vuex.Store({
       })
     }
   },
-  plugins: [createPersistedState()]
+  plugins: [createPersistedState({
+    name: "player"
+  })]
 })
 
 // createPersistedState({
