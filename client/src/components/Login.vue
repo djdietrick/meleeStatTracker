@@ -1,19 +1,23 @@
 <template>
-    <div>
-        <div v-if="error" class="errorMessage">
-            <h2>Error</h2>
-            <p>{{errorMessage}}</p>
+    <div class="popup popup--login">
+        <div class="popup__content">
+            <div v-if="error" class="popup__error">
+                <h2>Error</h2>
+                <p>{{errorMessage}}</p>
+            </div>
+            <div class="popup__form">
+                <form class="login" @submit.prevent="login">
+                    <h1>Sign in</h1>
+                    <label>Username</label>
+                    <input required v-model="username" type="username" placeholder="Username"/>
+                    <br>
+                    <label>Password</label>
+                    <input required v-model="password" type="password" placeholder="Password"/>
+                    <br>
+                    <button type="submit">Login</button>
+                </form>
+            </div>
         </div>
-        <form class="login" @submit.prevent="login">
-            <h1>Sign in</h1>
-            <label>Username</label>
-            <input required v-model="username" type="username" placeholder="Username"/>
-            <br>
-            <label>Password</label>
-            <input required v-model="password" type="password" placeholder="Password"/>
-            <br>
-            <button type="submit">Login</button>
-        </form>
     </div>
 </template>
 
