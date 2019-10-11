@@ -7,10 +7,8 @@
       </h1>
     </div>
     <div class="home__nav">
-        <a href="#popup--login" class="btn btn--white">Login</a>
-        <a href="#popup--register" class="btn btn--white">Register</a>
-        <!-- <router-link to="/login" class="btn btn--white">Login</router-link>
-        <router-link to="/register" class="btn btn--white">Register</router-link> -->
+        <a href="#login" class="btn btn--white">Login</a>
+        <a href="#register" class="btn btn--white">Register</a>
     </div>
     <Login/>
     <Register/>
