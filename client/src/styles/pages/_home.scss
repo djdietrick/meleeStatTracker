@@ -1,9 +1,9 @@
 .home {
-    height: 90vh;
+    height: 93vh;
     background-image: linear-gradient(
         to right bottom,
-        rgba($color-primary-light, 0.9),
-        rgba($color-primary-dark, 0.9)),
+        rgba($color-grey-dark-2, 0.9),
+        rgba($color-grey-dark-3, 0.9)),
         url("./assets/fd.png");
     position: relative;
     background-size: cover;

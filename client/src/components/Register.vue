@@ -8,7 +8,7 @@
             </div>
             <div class="popup__form">
                 <form class="login" @submit.prevent="register">
-                    <h1>Register</h1>
+                    <h3 class="heading-tertiary">Register</h3>
                     <div class="input-row"> 
                         <label>Username</label>
                         <input required v-model="username" type="username" placeholder="Username"/>

@@ -4,7 +4,7 @@
     position: fixed;
     top: 0;
     left: 0;
-    background-color: rgba($color-black, .8);
+    background-color: rgba($color-black, .2);
     z-index: 9999;
     opacity: 0;
     visibility: hidden;
@@ -13,8 +13,8 @@
     &__content {
         @include absCenter;
 
-        width: 75%;
-        height: 50%;
+        width: 30%;
+        height: 30%;
         background-color: $color-grey-dark-3;
         box-shadow: 0 2rem 4rem rgba($color-black, .2);
         border-radius: 3px;
@@ -22,7 +22,7 @@
         overflow: hidden;
         opacity: 0;
         transform: translate(-50%, -50%) scale(.25);
-        transition: all .5s .2s;
+        transition: all .3s .2s;
     }
 
     &:target {
@@ -31,7 +31,7 @@
     }
 
     &:target &__content {
-        opacity: 0.9;
+        opacity: 0.97;
         transform: translate(-50%, -50%) scale(1);
     }
 
@@ -73,8 +73,5 @@
                 border-radius: .5rem;
             }
         }
-
-       
-
     }
 }

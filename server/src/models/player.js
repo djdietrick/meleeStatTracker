@@ -8,6 +8,9 @@ const playerSchema = new mongoose.Schema({
         type: String,
         required: true
     },
+    tag: {
+        type: String
+    },
     email: {
         type: String,
         unique: true,
@@ -36,7 +39,19 @@ const playerSchema = new mongoose.Schema({
         friendId: {
             type: mongoose.Schema.Types.ObjectId
         }
-    }]
+    }],
+    pendingFriends: {
+        sent: [{
+            playerId: {
+                type: mongoose.Schema.Types.ObjectId
+            }
+        }],
+        received: [{
+            playerId: {
+                type: mongoose.Schema.Types.ObjectId
+            }
+        }]
+    }
 });
 
 playerSchema.methods.generateAuthToken = async function () {
@@ -57,6 +72,12 @@ playerSchema.methods.toJSON = function () {
     delete userObject.tokens;
 
     return userObject;
+};
+
+playerSchema.statics.findPlayerById = async (playerId) => {
+    const player = await Player.findOne({playerId});
+
+    return player;
 };
 
 playerSchema.statics.findPlayerByName = async (name) => {

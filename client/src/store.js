@@ -19,7 +19,8 @@ export default new Vuex.Store({
         return state.player._id;
       }
       return undefined;
-    }
+    },
+    player: state => state.player
   },
   mutations: {
     auth_request(state){
@@ -103,9 +104,7 @@ export default new Vuex.Store({
       })
     }
   },
-  plugins: [createPersistedState({
-    name: "player"
-  })]
+  plugins: [createPersistedState()]
 })
 
 // createPersistedState({

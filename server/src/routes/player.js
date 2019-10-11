@@ -43,6 +43,6 @@ router.post('/player/logout', auth, async(req, res) => {
         console.log("Error when logging out:", e.message);
         return res.status(500).send(e.message);
     }
-})
+});
 
 module.exports = router;
